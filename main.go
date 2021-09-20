@@ -9,6 +9,16 @@ type Mydata struct {
 
 func main() {
 	var s1 = Mydata{"test1", []int{10, 30, 49}}
-	var s2 = Mydata{"test2", []int{39, 94, 22}}
-	fmt.Println(s1, s2)
+	fmt.Println(s1)
+	rev(&s1)
+	fmt.Println(s1)
+}
+
+func rev(md *Mydata) {
+	od := md.Data
+	nd := []int{}
+	for i := len(od) - 1; i >= 0; i-- {
+		nd = append(nd, od[i])
+	}
+	md.Data = nd
 }
