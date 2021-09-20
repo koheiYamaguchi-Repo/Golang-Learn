@@ -1,26 +1,57 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type Mydata struct {
-	Name string
-	Data []int
+type intp int
+
+func (num intp) IsPrime() bool {
+	n := int(num)
+	for i := 2; i <= (n / 2); i++ {
+		if n%i == 0 {
+			return false
+		}
+	}
+	return true
 }
 
-func (md Mydata) PrintData() {
-	fmt.Println("Name: ", md.Name)
-	fmt.Println("Data: ", md.Data)
+func (num intp) PrimeFactor() []int {
+	ar := []int{}
+	x := int(num)
+	n := 2
+	for x > n {
+		if x%n == 0 {
+			x /= n
+			ar = append(ar, n)
+		} else {
+			if n == 2 {
+				n++
+			} else {
+				n += 2
+			}
+		}
+	}
+	ar = append(ar, x)
+	return ar
+}
+
+func (num *intp) doPrime() {
+	pf := num.PrimeFactor()
+	*num = intp(pf[len(pf)-1])
 }
 
 func main() {
-	taroCp := Mydata{
-		"copy", []int{20, 2020, 330},
-	}
-	taro := new(Mydata)
-	taro.Name = "hanako"
-	taro.Data = []int{30, 49, 29}
-	taro.PrintData()
-	fmt.Println(taro)
-	fmt.Println(taroCp)
+	fmt.Println("type a number")
+	var n int
+	fmt.Scanf("%d", &n)
 
+	x := intp(n)
+	fmt.Printf("%d [%t].\n", x, x.IsPrime())
+	fmt.Println(x.PrimeFactor())
+	x.doPrime()
+	x *= 2
+	x++
+	fmt.Printf("%d [%t].\n", x, x.IsPrime())
+	fmt.Println(x.PrimeFactor())
 }
