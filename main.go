@@ -21,8 +21,13 @@ func (md *Mydata) PrintData() {
 	fmt.Println("Data: ", md.Data)
 }
 
+func (md *Mydata) Check() {
+	fmt.Printf("Check! [%s]\n", md.Name)
+}
+
 func main() {
 	var ob Mydata = Mydata{}
-	ob.Initial("Sachiko", []int{56, 66, 77})
+	ob.Initial("Sachiko", []int{55, 66, 77})
+	ob.Check()
 	ob.PrintData()
 }
