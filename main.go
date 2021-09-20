@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-var mydata struct {
+type Mydata struct {
 	Name string
 	Data []int
 }
 
 func main() {
-	mydata.Name = "Taro"
-	mydata.Data = []int{10, 20, 30}
-	fmt.Println(mydata)
+	var s1 = Mydata{"test1", []int{10, 30, 49}}
+	var s2 = Mydata{"test2", []int{39, 94, 22}}
+	fmt.Println(s1, s2)
 }
