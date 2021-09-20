@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 type Data interface {
-	Initial(name string, data []int)
+	SetValue(vals map[string]string)
 	PrintData()
 }
 type Mydata struct {
@@ -11,9 +15,15 @@ type Mydata struct {
 	Data []int
 }
 
-func (md *Mydata) Initial(name string, data []int) {
-	md.Name = name
-	md.Data = data
+func (md *Mydata) SetValue(vals map[string]string) {
+	md.Name = vals["name"]
+	valt := strings.Split(vals["data"], " ")
+	vali := []int{}
+	for _, i := range valt {
+		n, _ := strconv.Atoi(i)
+		vali = append(vali, n)
+	}
+	md.Data = vali
 }
 
 func (md *Mydata) PrintData() {
@@ -21,13 +31,39 @@ func (md *Mydata) PrintData() {
 	fmt.Println("Data: ", md.Data)
 }
 
-func (md *Mydata) Check() {
-	fmt.Printf("Check! [%s]\n", md.Name)
+type YourData struct {
+	Name string
+	Mail string
+	Age  int
+}
+
+func (md *YourData) SetValue(vals map[string]string) {
+	md.Name = vals["name"]
+	md.Mail = vals["mail"]
+	n, _ := strconv.Atoi(vals["age"])
+	md.Age = n
+}
+
+func (md *YourData) PrintData() {
+	fmt.Printf("I'm %s.(%d).\n", md.Name, md.Age)
+	fmt.Printf("mail:%s.\n", md.Mail)
 }
 
 func main() {
-	var ob Mydata = Mydata{}
-	ob.Initial("Sachiko", []int{55, 66, 77})
-	ob.Check()
-	ob.PrintData()
+	ob := [2]Data{}
+	ob[0] = new(Mydata)
+	ob[0].SetValue(map[string]string{
+		"name": "Sachiko",
+		"data": "55,66,77",
+	})
+	ob[1] = new(YourData)
+	ob[1].SetValue(map[string]string{
+		"name": "Mami",
+		"mail": "mami@name.mo",
+		"age":  "44",
+	})
+	for _, d := range ob {
+		d.PrintData()
+		fmt.Println()
+	}
 }
