@@ -2,64 +2,36 @@ package main
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 )
 
-type Data interface {
-	SetValue(vals map[string]string)
-	PrintData()
+type General interface{}
+
+type GData interface {
+	Set(nm string, g General)
+	Print()
 }
-type Mydata struct {
+
+type GDataImpl struct {
 	Name string
-	Data []int
+	Data General
 }
 
-func (md *Mydata) SetValue(vals map[string]string) {
-	md.Name = vals["name"]
-	valt := strings.Split(vals["data"], " ")
-	vali := []int{}
-	for _, i := range valt {
-		n, _ := strconv.Atoi(i)
-		vali = append(vali, n)
-	}
-	md.Data = vali
+func (gd *GDataImpl) Set(nm string, g General) {
+	gd.Name = nm
+	gd.Data = g
 }
 
-func (md *Mydata) PrintData() {
-	if md != nil {
-		fmt.Println("Name: ", md.Name)
-		fmt.Println("Data: ", md.Data)
-	} else {
-		fmt.Println("**This is Nil value.**")
-	}
-}
-
-type YourData struct {
-	Name string
-	Mail string
-	Age  int
-}
-
-func (md *YourData) SetValue(vals map[string]string) {
-	md.Name = vals["name"]
-	md.Mail = vals["mail"]
-	n, _ := strconv.Atoi(vals["age"])
-	md.Age = n
-}
-
-func (md *YourData) PrintData() {
-	fmt.Printf("I'm %s.(%d).\n", md.Name, md.Age)
-	fmt.Printf("mail:%s.\n", md.Mail)
+func (gd *GDataImpl) Print() {
+	fmt.Printf("<<%s>>", gd.Name)
+	fmt.Println(gd.Data)
 }
 
 func main() {
-	var ob *Mydata
-	ob.PrintData()
-	ob = &Mydata{}
-	ob.SetValue(map[string]string{
-		"name": "Taro",
-		"data": "123 456 789",
-	})
-	ob.PrintData()
+	var data = []GDataImpl{}
+	data = append(data, GDataImpl{"Taro", 123})
+	data = append(data, GDataImpl{"Hanako", "hello"})
+	data = append(data, GDataImpl{"Sachiko", []int{123, 456, 789}})
+	for _, ob := range data {
+		ob.Print()
+	}
 }
