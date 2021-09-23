@@ -16,10 +16,10 @@ type GDataImpl struct {
 	Data General
 }
 
-func (gd *GDataImpl) Set(nm string, g General) {
-	gd.Name = nm
-	gd.Data = g
-}
+// func (gd *GDataImpl) Set(nm string, g General) {
+// 	gd.Name = nm
+// 	gd.Data = g
+// }
 
 func (gd *GDataImpl) Print() {
 	fmt.Printf("<<%s>>", gd.Name)
